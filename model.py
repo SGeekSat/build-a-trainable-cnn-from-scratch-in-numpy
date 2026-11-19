@@ -45,8 +45,10 @@ def stable_softmax(logits):
     exp_value = exp_shifted(logits)
     return exp_value/row_sum(exp_value)# TODO: Compute a numerically stable softmax row-wise over (N, C) logits.
 
-# Step 6 - one_hot (not yet solved)
-# TODO: implement
+# Step 6 - one_hot
+def one_hot(labels, num_classes):
+    lables = np.array(labels)
+    return np.eye(num_classes, dtype=float)[labels] # TODO: convert integer labels into a (N, num_classes) one-hot float matrix
 
 # Step 7 - gather_true_class_probs (not yet solved)
 # TODO: implement
