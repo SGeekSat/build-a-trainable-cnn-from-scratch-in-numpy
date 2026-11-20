@@ -80,8 +80,13 @@ def he_std(fan_in):
     # TODO: return the He initialization standard deviation sqrt(2 / fan_in).
     return float(np.sqrt(2.0/fan_in))
 
-# Step 11 - he_init (not yet solved)
-# TODO: implement
+# Step 11 - he_init
+def he_init(shape, fan_in, seed):
+    # TODO: sample a weight tensor from a normal distribution scaled by He std using the seed.
+    np.random.seed(seed)
+    std = he_std(fan_in)
+    weights = np.random.normal(0, std, shape)
+    return weights.astype(np.float64)
 
 # Step 12 - init_zero_bias (not yet solved)
 # TODO: implement
