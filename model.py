@@ -72,6 +72,8 @@ def cross_entropy_loss(probs, labels, eps=1e-12):
 def accuracy(logits_or_probs, labels):
     # TODO: return the fraction of rows whose argmax matches the integer label.
     predicted = argmax_rows(logits_or_probs)
+    
+
     return np.mean(predicted==labels)
 
 # Step 10 - he_std
