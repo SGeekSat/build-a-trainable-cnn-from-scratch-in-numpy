@@ -594,8 +594,42 @@ def forward_classifier_block(x, fc1, fc2):
     }
     return logits,cache
 
-# Step 47 - lenet_forward (not yet solved)
-# TODO: implement
+# Step 47 - lenet_forward
+def lenet_forward(x, params):
+    # TODO: run two conv blocks then the classifier block and return (logits, caches).
+    #Block1
+    out1,cache1 = forward_conv_block(
+        x,
+        params['conv1']['W'],
+        params['conv1']['b'],
+        pool_size = 2,
+        stride = 1,
+        pad=0
+
+    )
+    #Block2
+    out2,cache2 = forward_conv_block(
+        out1,
+        params['conv2']['W'],
+        params['conv2']['b'],
+        pool_size=2,
+        stride=1,
+        pad = 0
+    )
+    #Classifier  Flatten -> FC1 -> ReLU -> FC2
+    logits, classifier_cache = forward_classifier_block(
+        out2,
+        params['fc1'],
+        params['fc2']
+
+    )
+    cache = {
+        'block1':cache1,
+        'block2': cache2,
+        'classifier':classifier_cache
+
+    }
+    return logits,cache
 
 # Step 48 - backward_conv_block (not yet solved)
 # TODO: implement
