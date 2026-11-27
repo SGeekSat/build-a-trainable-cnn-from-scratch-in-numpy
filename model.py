@@ -706,8 +706,18 @@ def lenet_backward(dlogits, caches):
 # Step 51 - lenet_predict (not yet solved)
 # TODO: implement
 
-# Step 52 - build_synthetic_image_dataset (not yet solved)
-# TODO: implement
+# Step 52 - build_synthetic_image_dataset
+def build_synthetic_image_dataset(num_samples, num_classes, image_size, in_channels=1, seed=0):
+    # TODO: Return (x, y) for a reproducible synthetic NCHW image dataset.
+    rng = np.random.default_rng(seed)
+    #generatinf integer labels
+    y = rng.integers(0,num_classes,size = num_samples)
+    #Generate random pixel values
+    x = rng.standard_normal((num_samples,in_channels,image_size,image_size))
+    #shifting each image according to its class label
+    shifts = y-(num_classes-1)/2
+    x+=shifts[:,None,None,None]
+    return x,y
 
 # Step 53 - shuffle_indices (not yet solved)
 # TODO: implement
