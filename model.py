@@ -757,8 +757,64 @@ def iterate_minibatches(x, y, batch_size, seed=0):
 
         yield xb,yb
 
-# Step 56 - train_step (not yet solved)
-# TODO: implement
+# Step 56 - train_step
+def train_step(params, opt_state, xb, yb, lr, beta_one, beta_two, eps, step):
+
+    # 1. Forward pass
+    logits, caches = lenet_forward(xb, params)
+
+    # 2. Calculate loss
+    loss = softmax_cross_entropy_forward(logits, yb)
+
+    # 3. Calculate gradient at logits
+    dlogits = softmax_cross_entropy_backward(logits, yb)
+
+    # 4. Backward pass
+    grads = lenet_backward(dlogits, caches)
+
+    # 5. Initialize updated dictionaries
+    new_params = {}
+    new_opt_state = {}
+
+    # 6. Update every layer and parameter using Adam
+    for layer in params:
+
+        new_params[layer] = {}
+        new_opt_state[layer] = {}
+
+        for pname in params[layer]:
+
+            # Retrieve previous moments for this parameter
+            m = opt_state[layer][pname]['m']
+            v = opt_state[layer][pname]['v']
+
+            # Retrieve corresponding gradient
+            grad_name = 'd' + pname
+            grad = grads[layer][grad_name]
+
+            # Apply Adam update
+            updated_param, new_m, new_v = adam_step(
+                params[layer][pname],
+                grad,
+                m,
+                v,
+                step,
+                lr,
+                beta_one,
+                beta_two,
+                eps
+            )
+
+            # Store updated parameter
+            new_params[layer][pname] = updated_param
+
+            # Store moments under the parameter name
+            new_opt_state[layer][pname] = {
+                'm': new_m,
+                'v': new_v
+            }
+
+    return new_params, new_opt_state, loss
 
 # Step 57 - train_one_epoch (not yet solved)
 # TODO: implement
